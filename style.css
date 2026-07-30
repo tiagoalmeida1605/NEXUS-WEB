@@ -1,0 +1,574 @@
+/* ========================================
+   NEXUS - Em Desenvolvimento
+   Estilos principais
+   ======================================== */
+
+/* --- Variáveis CSS (Design Tokens) --- */
+:root {
+    /* Cores principais */
+    --color-bg-primary: #050505;        /* Preto profundo */
+    --color-bg-secondary: #061A2E;      /* Azul escuro */
+    --color-accent: #00A8FF;            /* Azul tecnológico */
+    --color-accent-dim: rgba(0, 168, 255, 0.3);
+    --color-accent-glow: rgba(0, 168, 255, 0.6);
+    --color-text-primary: #E8F4FD;      /* Branco azulado */
+    --color-text-secondary: #8AB4D8;    /* Cinza azulado */
+    --color-text-muted: #4A6B8C;        /* Cinza mais escuro */
+    --color-border: rgba(0, 168, 255, 0.2);
+    --color-border-bright: rgba(0, 168, 255, 0.4);
+
+    /* Estados do terminal */
+    --color-offline: #FF4444;
+    --color-updating: #FFAA00;
+    --color-standby: #00A8FF;
+    --color-success: #00FF88;
+
+    /* Tipografia */
+    --font-primary: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+    --font-display: 'Orbitron', 'Rajdhani', 'Exo 2', sans-serif;
+
+    /* Espaçamento */
+    --space-xs: 0.25rem;
+    --space-sm: 0.5rem;
+    --space-md: 1rem;
+    --space-lg: 1.5rem;
+    --space-xl: 2.5rem;
+    --space-2xl: 4rem;
+
+    /* Bordas e raios */
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+
+    /* Transições */
+    --transition-fast: 150ms ease;
+    --transition-normal: 300ms ease;
+    --transition-slow: 600ms ease;
+
+    /* Sombras */
+    --glow-sm: 0 0 10px var(--color-accent-glow);
+    --glow-md: 0 0 20px var(--color-accent-glow), 0 0 40px rgba(0, 168, 255, 0.2);
+    --glow-lg: 0 0 30px var(--color-accent-glow), 0 0 60px rgba(0, 168, 255, 0.3);
+}
+
+/* --- Reset e Base --- */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+}
+
+@media (max-width: 768px) {
+    html { font-size: 14px; }
+}
+
+@media (max-width: 480px) {
+    html { font-size: 13px; }
+}
+
+body {
+    min-height: 100vh;
+    width: 100%;
+    background-color: var(--color-bg-primary);
+    color: var(--color-text-primary);
+    font-family: var(--font-primary);
+    line-height: 1.6;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* Forçar fontes do sistema como fallback se Google Fonts falhar */
+@font-face {
+    font-family: 'Orbitron';
+    src: local('Orbitron'), local('Rajdhani'), local('Exo 2');
+    font-display: swap;
+}
+
+/* ========================================
+   Camada de Fundo (Background Layer)
+   ======================================== */
+
+.background-layer {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+/* Canvas das partículas e circuitos */
+#particles-canvas,
+#circuit-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+/* Efeito Scanline */
+.scanlines {
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 0, 0, 0.15) 2px,
+        rgba(0, 0, 0, 0.15) 4px
+    );
+    pointer-events: none;
+    opacity: 0.4;
+    animation: scanline-flicker 8s ease-in-out infinite;
+}
+
+@keyframes scanline-flicker {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.5; }
+}
+
+/* Gradiente radial sutil no fundo */
+.background-layer::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 120vmax;
+    height: 120vmax;
+    background: radial-gradient(
+        ellipse at center,
+        var(--color-bg-secondary) 0%,
+        transparent 70%
+    );
+    opacity: 0.15;
+    pointer-events: none;
+}
+
+/* ========================================
+   Container Principal
+   ======================================== */
+
+.container {
+    position: relative;
+    z-index: 10;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-xl) var(--space-md);
+    gap: var(--space-xl);
+    text-align: center;
+}
+
+/* ========================================
+   Seção Logo
+   ======================================== */
+
+.logo-section {
+    position: relative;
+    animation: fade-in-up 1s var(--transition-slow) both;
+}
+
+.logo-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(
+        circle at center,
+        var(--color-accent-glow) 0%,
+        transparent 70%
+    );
+    border-radius: 50%;
+    filter: blur(40px);
+    opacity: 0.4;
+    animation: pulse-glow 3s ease-in-out infinite;
+    pointer-events: none;
+}
+
+@keyframes pulse-glow {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.3; }
+    50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.5; }
+}
+
+.nexus-title {
+    position: relative;
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 12vw, 7rem);
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--color-text-primary);
+    text-shadow:
+        0 0 10px var(--color-accent-glow),
+        0 0 20px var(--color-accent-dim),
+        0 0 40px var(--color-accent-dim);
+    animation: title-pulse 4s ease-in-out infinite;
+}
+
+@keyframes title-pulse {
+    0%, 100% { text-shadow:
+        0 0 10px var(--color-accent-glow),
+        0 0 20px var(--color-accent-dim),
+        0 0 40px var(--color-accent-dim); }
+    50% { text-shadow:
+        0 0 20px var(--color-accent-glow),
+        0 0 40px var(--color-accent-dim),
+        0 0 80px var(--color-accent-dim); }
+}
+
+.nexus-subtitle {
+    margin-top: var(--space-sm);
+    font-family: var(--font-primary);
+    font-size: clamp(0.75rem, 2vw, 1rem);
+    font-weight: 400;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
+    opacity: 0.8;
+}
+
+/* ========================================
+   Seção Mensagens
+   ======================================== */
+
+.message-section {
+    animation: fade-in-up 1s var(--transition-slow) 0.2s both;
+}
+
+.main-message {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 5vw, 2.5rem);
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    text-shadow: 0 0 20px var(--color-accent-glow);
+    margin-bottom: var(--space-md);
+}
+
+.secondary-message {
+    font-family: var(--font-primary);
+    font-size: clamp(0.875rem, 2vw, 1rem);
+    color: var(--color-text-secondary);
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.7;
+}
+
+/* ========================================
+   Terminal Section
+   ======================================== */
+
+.terminal-section {
+    width: 100%;
+    max-width: 700px;
+    animation: fade-in-up 1s var(--transition-slow) 0.4s both;
+}
+
+.terminal-window {
+    background: linear-gradient(
+        135deg,
+        rgba(6, 26, 46, 0.9) 0%,
+        rgba(5, 5, 5, 0.95) 100%
+    );
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow:
+        0 10px 40px rgba(0, 0, 0, 0.5),
+        0 0 0 1px var(--color-border-bright) inset,
+        var(--glow-sm);
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+}
+
+.terminal-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-sm) var(--space-md);
+    background: rgba(0, 168, 255, 0.05);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.terminal-dots {
+    display: flex;
+    gap: 6px;
+}
+
+.terminal-dots span {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--color-border);
+    transition: var(--transition-fast);
+}
+
+.terminal-dots span:nth-child(1) { background: #FF4444; }
+.terminal-dots span:nth-child(2) { background: #FFAA00; }
+.terminal-dots span:nth-child(3) { background: #00CC66; }
+
+.terminal-title {
+    font-family: var(--font-primary);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    margin-left: auto;
+}
+
+.terminal-body {
+    padding: var(--space-lg) var(--space-md);
+    text-align: left;
+    overflow-x: auto;
+}
+
+.terminal-content {
+    font-family: var(--font-primary);
+    font-size: clamp(0.75rem, 2vw, 0.875rem);
+    line-height: 1.8;
+    color: var(--color-text-primary);
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.terminal-content code {
+    font-family: inherit;
+}
+
+/* Cores do terminal */
+.prompt { color: var(--color-accent); opacity: 0.7; }
+.label { color: var(--color-text-secondary); }
+.value { color: var(--color-text-primary); font-weight: 500; }
+.value.offline { color: var(--color-offline); text-shadow: 0 0 10px rgba(255, 68, 68, 0.5); }
+.value.updating { color: var(--color-updating); text-shadow: 0 0 10px rgba(255, 170, 0, 0.5); }
+.value.standby { color: var(--color-standby); text-shadow: 0 0 10px var(--color-accent-glow); }
+.awaiting {
+    color: var(--color-accent);
+    font-style: italic;
+    animation: blink 1.5s ease-in-out infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+}
+
+/* Cursor digitando (para linhas que estão sendo digitadas) */
+.typing::after {
+    content: '▊';
+    animation: cursor-blink 1s step-end infinite;
+    margin-left: 2px;
+    color: var(--color-accent);
+}
+
+@keyframes cursor-blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+}
+
+/* ========================================
+   Botão Access System
+   ======================================== */
+
+.button-section {
+    animation: fade-in-up 1s var(--transition-slow) 0.6s both;
+}
+
+.access-btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-md) var(--space-xl);
+    background: transparent;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    color: var(--color-text-muted);
+    font-family: var(--font-primary);
+    font-size: clamp(0.875rem, 2vw, 1rem);
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: not-allowed;
+    transition: var(--transition-normal);
+    opacity: 0.5;
+}
+
+.access-btn::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: var(--radius-md);
+    border: 1px solid transparent;
+    background: linear-gradient(135deg, var(--color-accent-dim), transparent) border-box;
+    -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0) border-box;
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: var(--transition-normal);
+}
+
+.access-btn:hover::before,
+.access-btn:focus-visible::before {
+    opacity: 1;
+}
+
+.btn-icon {
+    transition: var(--transition-normal);
+    color: var(--color-accent);
+}
+
+.access-btn:hover .btn-icon {
+    transform: translateX(4px);
+}
+
+.btn-hint {
+    margin-top: var(--space-sm);
+    font-size: 0.7rem;
+    color: var(--color-text-muted);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+/* ========================================
+   Rodapé
+   ======================================== */
+
+.footer {
+    position: relative;
+    z-index: 10;
+    padding: var(--space-lg) var(--space-md);
+    text-align: center;
+    animation: fade-in 1s var(--transition-slow) 0.8s both;
+}
+
+.copyright {
+    font-family: var(--font-primary);
+    font-size: 0.7rem;
+    color: var(--color-text-muted);
+    letter-spacing: 0.1em;
+    margin-bottom: var(--space-xs);
+}
+
+.author {
+    font-family: var(--font-primary);
+    font-size: 0.65rem;
+    color: var(--color-text-muted);
+    opacity: 0.6;
+    letter-spacing: 0.05em;
+}
+
+/* ========================================
+   Animações de Entrada
+   ======================================== */
+
+@keyframes fade-in-up {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* ========================================
+   Responsividade
+   ======================================== */
+
+@media (max-width: 768px) {
+    .container {
+        gap: var(--space-lg);
+        padding: var(--space-lg) var(--space-md);
+    }
+
+    .nexus-title {
+        letter-spacing: 0.15em;
+    }
+
+    .nexus-subtitle {
+        letter-spacing: 0.2em;
+    }
+
+    .terminal-body {
+        padding: var(--space-md);
+    }
+}
+
+@media (max-width: 480px) {
+    .access-btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .terminal-content {
+        font-size: 0.7rem;
+    }
+}
+
+/* ========================================
+   Redução de Movimento (Acessibilidade)
+   ======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+
+    .scanlines { animation: none; opacity: 0.3; }
+    .logo-glow { animation: none; }
+    .nexus-title { animation: none; }
+    .awaiting { animation: none; }
+    .typing::after { animation: none; opacity: 1; }
+}
+
+/* ========================================
+   Estados de Foco (Acessibilidade)
+   ======================================== */
+
+.access-btn:focus-visible {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px var(--color-accent-dim);
+}
+
+/* ========================================
+   Print Styles
+   ======================================== */
+
+@media print {
+    .background-layer,
+    .scanlines,
+    .logo-glow,
+    .access-btn,
+    .btn-hint { display: none; }
+
+    body { background: white; color: black; }
+
+    .nexus-title { color: black; text-shadow: none; }
+    .main-message { color: #0066CC; text-shadow: none; }
+    .terminal-window { border: 1px solid #ccc; box-shadow: none; }
+}

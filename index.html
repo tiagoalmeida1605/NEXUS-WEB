@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="NEXUS - Networked Executive Intelligence System - Em desenvolvimento">
+    <title>NEXUS | Em Desenvolvimento</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="assets/logo.png">
+</head>
+<body>
+    <!-- Camada de fundo com efeitos visuais -->
+    <div class="background-layer">
+        <!-- Partículas flutuantes -->
+        <canvas id="particles-canvas"></canvas>
+        <!-- Linhas de circuito -->
+        <canvas id="circuit-canvas"></canvas>
+        <!-- Efeito scanline -->
+        <div class="scanlines"></div>
+    </div>
+
+    <!-- Contéudo principal -->
+    <main class="container">
+        <!-- Logo NEXUS -->
+        <header class="logo-section">
+            <div class="logo-glow"></div>
+            <h1 class="nexus-title">NEXUS</h1>
+            <p class="nexus-subtitle">Networked Executive Intelligence System</p>
+        </header>
+
+        <!-- Mensagem principal -->
+        <section class="message-section">
+            <h2 class="main-message">Em desenvolvimento</h2>
+            <p class="secondary-message">
+                O sistema está temporariamente offline para melhorias e novas atualizações.
+            </p>
+        </section>
+
+        <!-- Painel de status estilo terminal -->
+        <section class="terminal-section" aria-label="Status do sistema">
+            <div class="terminal-window">
+                <div class="terminal-header">
+                    <div class="terminal-dots">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                    <span class="terminal-title">NEXUS SYSTEM</span>
+                </div>
+                <div class="terminal-body">
+                    <pre class="terminal-content" id="terminal-content"><code>
+<span class="prompt">╭─</span> <span class="label">NEXUS SYSTEM</span>
+<span class="prompt">│</span>
+<span class="prompt">│</span> <span class="label">Status:</span> <span class="value offline" id="status-line">OFFLINE</span>
+<span class="prompt">│</span> <span class="label">Version:</span> <span class="value" id="version-line">Future Build</span>
+<span class="prompt">│</span> <span class="label">Core:</span> <span class="value updating" id="core-line">Updating...</span>
+<span class="prompt">│</span> <span class="label">Modules:</span> <span class="value standby" id="modules-line">Standby</span>
+<span class="prompt">│</span>
+<span class="prompt">╰─</span> <span class="awaiting" id="awaiting-line">Awaiting activation...</span>
+                    </code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Botão de acesso ao sistema (desativado) -->
+        <section class="button-section">
+            <button class="access-btn" disabled aria-disabled="true" title="Acesso disponível na próxima versão">
+                <span class="btn-text">Access System</span>
+                <span class="btn-icon" aria-hidden="true">→</span>
+            </button>
+            <p class="btn-hint">Disponível na próxima versão</p>
+        </section>
+    </main>
+
+    <!-- Rodapé -->
+    <footer class="footer">
+        <p class="copyright">© NEXUS Project</p>
+        <p class="author">Developed by Tiago</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
